@@ -4,7 +4,7 @@ const { MonthCalender } = require("../src/month-calender.js");
 
 describe("weeks", function () {
   it("should give the weeks of a month", function () {
-    const month = new MonthCalender("January", 0, 2023);
+    const month = new MonthCalender(0, 2023);
     const expectedWeeks = [
       [1, 2, 3, 4, 5, 6, 7],
       [8, 9, 10, 11, 12, 13, 14],

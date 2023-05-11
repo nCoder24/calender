@@ -1,47 +1,60 @@
+const { chunk } = require("../lib/utils");
+
+const months = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
 class MonthCalender {
-  #name;
-  #number;
+  #index;
   #year;
 
-  constructor(name, number, year) {
-    this.#name = name;
-    this.#number = number;
+  constructor(index, year) {
+    this.#index = index;
     this.#year = year;
   }
 
   get weeks() {
-    const date = new Date(this.#year, this.#number, 1);
-    const dates = new Array(date.getDay()).fill(undefined);
+    const date = new Date(this.#year, this.#index, 1);
+    const dates = new Array(date.getDay()).fill();
 
-    while(date.getMonth() === this.#number) {
+    while (date.getMonth() === this.#index) {
       dates.push(date.getDate());
       date.setDate(date.getDate() + 1);
     }
 
-    const remainingDays = 42 - dates.length;
-    dates.push(...new Array(remainingDays).fill(undefined));
+    const maxWeek = 6;
+    const remainingDays = maxWeek * 7 - dates.length;
+    dates.push(...new Array(remainingDays).fill());
 
-    const weeks = [];
-
-    for(let week = 1; week <= 6; week += 1) {
-      const weekEnd = week * 7;
-      weeks.push(dates.slice(weekEnd - 7, weekEnd));
-    }
-
-    return weeks;
+    return chunk(7, dates, 0);
   }
 
   toString() {
-    const heading = `${this.#name} ${this.#year}\n`;
+    const heading = `${months[this.#index]} ${this.#year}`.padEnd(20) + "\n";
     const days = "Su Mo Tu We Th Fr Sa" + "\n";
-    
-    const datesInString = this.weeks.map(function(week) {
-      return week.map(function(day) {
-        return (day || "").toString().padStart(2)
-      }).join(" ");
-    }).join("\n");
 
-    return heading + days + datesInString;
+    const datesInString = this.weeks
+      .map(function (week) {
+        return week
+          .map(function (day) {
+            return (day || "").toString().padStart(2);
+          })
+          .join(" ");
+      })
+      .join("\n");
+
+    return heading + days + datesInString + "\n";
   }
 }
 

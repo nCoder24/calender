@@ -1,26 +1,21 @@
 const { MonthCalender } = require("./src/month-calender.js");
-
-const months = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
+const { YearCalender } = require("./src/year-calender.js");
 
 const main = function () {
-  const monthIndex = +process.argv[2] - 1;
-  const year = process.argv[3] || 2023;
+  if(process.argv.length === 4) {
+    const monthIndex = +process.argv[2];
+    const year = +process.argv[3];
 
-  const month = new MonthCalender(months[monthIndex], monthIndex, year);
-  console.log(month.toString());
+    const monthCalender = new MonthCalender(monthIndex - 1, year);
+    console.log(monthCalender.toString());
+    
+    return;
+  }
+
+  const year = +process.argv[2];
+
+  const yearCalender = new YearCalender(year);
+  console.log(yearCalender.toString());
 };
 
 main();
