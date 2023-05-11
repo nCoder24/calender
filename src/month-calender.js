@@ -18,12 +18,12 @@ class MonthCalender {
       date.setDate(date.getDate() + 1);
     }
 
-    const remainingDays = 7 - dates.length % 7;
+    const remainingDays = 42 - dates.length;
     dates.push(...new Array(remainingDays).fill(undefined));
 
     const weeks = [];
 
-    for(let week = 1; week <= dates.length / 7; week += 1) {
+    for(let week = 1; week <= 6; week += 1) {
       const weekEnd = week * 7;
       weeks.push(dates.slice(weekEnd - 7, weekEnd));
     }
