@@ -1,4 +1,4 @@
-const { chunk } = require("../lib/utils");
+const { chunk, range } = require("../lib/utils");
 
 const months = [
   "January",
@@ -16,45 +16,45 @@ const months = [
 ];
 
 class MonthCalender {
-  #index;
+  #month;
   #year;
 
-  constructor(index, year) {
-    this.#index = index;
+  constructor(month, year) {
+    this.#month = month;
     this.#year = year;
   }
 
   get weeks() {
-    const date = new Date(this.#year, this.#index, 1);
-    const dates = new Array(date.getDay()).fill();
+    const lastDate = new Date(this.#year, this.#month + 1, 0).getDate();
+    const startDay = new Date(this.#year, this.#month, 1).getDay();
 
-    while (date.getMonth() === this.#index) {
-      dates.push(date.getDate());
-      date.setDate(date.getDate() + 1);
-    }
+    const fillWeeks = function (dates, offset) {
+      return [
+        ...new Array(offset).fill("  "),
+        ...dates,
+        ...new Array(42 - dates.length - offset).fill("  "),
+      ];
+    };
 
-    const maxWeek = 6;
-    const remainingDays = maxWeek * 7 - dates.length;
-    dates.push(...new Array(remainingDays).fill());
+    const dates = range(1, lastDate).map(function (date) {
+      return date.toString().padStart(2);
+    });
 
-    return chunk(7, dates, 0);
+    return chunk(7, fillWeeks(dates, startDay), 0);
   }
 
   toString() {
-    const heading = `${months[this.#index]} ${this.#year}`.padEnd(20) + "\n";
-    const days = "Su Mo Tu We Th Fr Sa" + "\n";
+    const hedder =
+      `${months[this.#month]} ${this.#year}`.padEnd(20) +
+      "\n" +
+      "Su Mo Tu We Th Fr Sa" +
+      "\n";
 
-    const datesInString = this.weeks
-      .map(function (week) {
-        return week
-          .map(function (day) {
-            return (day || "").toString().padStart(2);
-          })
-          .join(" ");
-      })
-      .join("\n");
+    const weeksInStrng = this.weeks.map(function (week) {
+      return week.join(" ");
+    });
 
-    return heading + days + datesInString + "\n";
+    return hedder + weeksInStrng.join("\n") + "\n";
   }
 }
 
