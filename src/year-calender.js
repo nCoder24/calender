@@ -1,5 +1,5 @@
 const { MonthCalender } = require("./month-calender");
-const { chunk, map } = require("../lib/utils");
+const { chunk, merge } = require("../lib/utils");
 
 class YearCalender {
   #year;
@@ -9,29 +9,31 @@ class YearCalender {
   }
 
   get monthCalenders() {
-    const monthCals = [];
+    const monthCalenders = [];
 
     for (let monthIndex = 0; monthIndex < 12; monthIndex++) {
-      monthCals.push(new MonthCalender(monthIndex, this.#year));
+      monthCalenders.push(new MonthCalender(monthIndex, this.#year));
     }
 
-    return monthCals;
+    return monthCalenders;
   }
 
   toString() {
-    const monthCalsInString = this.monthCalenders.map(function (monthCal) {
-      return monthCal.toString().split("\n");
-    });
+    const splitIntoLines = function (monthCalender) {
+      return monthCalender.toString().split("\n");
+    }
 
-    const monthsByRow = chunk(3, monthCalsInString, 0);
+    const joinLines = function (...lines) {
+      return lines.join("  ");
+    }
 
-    const rows = monthsByRow.flatMap(function (monthsInRow) {
-      return map(function (...lines) {
-        return lines.join("  ");
-      }, ...monthsInRow);
-    });
+    const joinMonths = function (months) {
+      return merge(joinLines, ...months.map(splitIntoLines)).join("\n");
+    }
+  
+    const monthRows = chunk(4, this.monthCalenders, 0).flatMap(joinMonths);
 
-    return rows.join("\n");
+    return monthRows.join("\n\n");
   }
 }
 

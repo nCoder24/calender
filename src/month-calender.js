@@ -54,7 +54,7 @@ class MonthCalender {
       return week.join(" ");
     });
 
-    return hedder + weeksInStrng.join("\n") + "\n";
+    return hedder + weeksInStrng.join("\n");
   }
 }
 
