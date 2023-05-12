@@ -11,8 +11,8 @@ class YearCalender {
   get monthCalenders() {
     const monthCalenders = [];
 
-    for (let monthIndex = 0; monthIndex < 12; monthIndex++) {
-      monthCalenders.push(new MonthCalender(monthIndex, this.#year));
+    for (let month = 0; month < 12; month++) {
+      monthCalenders.push(new MonthCalender(month, this.#year));
     }
 
     return monthCalenders;

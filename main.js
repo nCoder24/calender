@@ -1,21 +1,29 @@
 const { MonthCalender } = require("./src/month-calender.js");
 const { YearCalender } = require("./src/year-calender.js");
 
-const main = function () {
-  if(process.argv.length === 4) {
-    const monthIndex = +process.argv[2];
-    const year = +process.argv[3];
+const generateCalender = function() {
+  const [year, month] = arguments;
 
-    const monthCalender = new MonthCalender(monthIndex - 1, year);
-    console.log(monthCalender.toString());
-    
-    return;
+  switch(arguments.length) {
+    case 0:
+      const today = new Date();
+      const presentMonth = today.getMonth();
+      const presentYear = today.getFullYear();
+
+      return new MonthCalender(presentMonth, presentYear)
+
+    case 1:
+      return new YearCalender(+year);
+
+    case 2:
+      return new MonthCalender(+month - 1, +year);
   }
 
-  const year = +process.argv[2];
+}
 
-  const yearCalender = new YearCalender(year);
-  console.log(yearCalender.toString());
+const main = function () {
+  const calender = generateCalender(...process.argv.slice(2));
+  console.log(calender.toString());
 };
 
 main();

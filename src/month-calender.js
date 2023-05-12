@@ -44,7 +44,7 @@ class MonthCalender {
   }
 
   toString() {
-    const hedder =
+    const header =
       `${months[this.#month]} ${this.#year}`.padEnd(20) +
       "\n" +
       "Su Mo Tu We Th Fr Sa" +
@@ -54,7 +54,7 @@ class MonthCalender {
       return week.join(" ");
     });
 
-    return hedder + weeksInStrng.join("\n");
+    return header + weeksInStrng.join("\n");
   }
 }
 
