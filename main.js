@@ -1,5 +1,5 @@
-const { MonthCalender } = require("./src/month-calender.js");
-const { YearCalender } = require("./src/year-calender.js");
+const { MonthCalendar } = require("./src/month-calendar.js");
+const { YearCalendar } = require("./src/year-calendar.js");
 
 const generateCalender = function() {
   const [year, month] = arguments;
@@ -10,13 +10,13 @@ const generateCalender = function() {
       const presentMonth = today.getMonth();
       const presentYear = today.getFullYear();
 
-      return new MonthCalender(presentMonth, presentYear)
+      return new MonthCalendar(presentMonth, presentYear)
 
     case 1:
-      return new YearCalender(+year);
+      return new YearCalendar(+year);
 
     case 2:
-      return new MonthCalender(+month - 1, +year);
+      return new MonthCalendar(+month - 1, +year);
   }
 
 }

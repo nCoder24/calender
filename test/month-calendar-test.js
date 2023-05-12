@@ -1,6 +1,6 @@
 const { describe, it } = require("node:test");
 const assert = require("assert");
-const { MonthCalender } = require("../src/month-calender.js");
+const { MonthCalender } = require("../src/month-calendar.js");
 
 describe("weeks", function () {
   it("should give the weeks of a month", function () {
